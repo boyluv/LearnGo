@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"golang.org/x/tour/wc"
 	_ "golang.org/x/tour/wc"
 	"math"
 	"strings"
@@ -284,18 +283,111 @@ func main() {
 
 	//Exercise Maps
 	//Need to see solution
-	wc.Test(WordCount)
+	//wc.Test(WordCount)
 
 
+	//Function can be a values
+	//hypot := func(x, y float64) float64 {
+	//	return math.Sqrt(x*x + y*y)
+	//}
+	//fmt.Println(hypot(5, 12))
+	//
+	//fmt.Println(compute(hypot))
+	//fmt.Println(compute(math.Pow))
+	//
+
+	//Change pos and neg to function
+	//pos, neg := adder(), adder()
+	//for i := 0; i < 10; i++ {
+	//	fmt.Println(
+	//		pos(i),
+	//		neg(-2*i),
+	//	)
+	//}
+
+	//f := fibonacci()
+	//for i := 0; i <10 ; i++{
+	//	fmt.Println(f())
+	//}
+
+
+	//Special receiver argument
+	//Methods --
+	//Go don't have class
+	//ver := VertexNew{6,8}
+	//fmt.Println(ver.Abs())
+
+	//Receiver argument with another type not struct
+	//numb := newInt(-8)
+	//fmt.Println(numb.returnAbsInt())
+
+
+	v := VertexFloat{3, 4}
+	Scale(v, 10)
+	fmt.Println(Abs(v))
 	fmt.Println("-------------------------------")
 
 
-	//fmt.Printf("Fields are: %q", strings.Fields("  foo bar  baz   "))
-	//
-	//temp := strings.Fields("  foo bar  baz   ")
-	//sort.Strings(temp)
-	//fmt.Println(temp)
 }
+type VertexFloat struct {
+	X, Y float64
+}
+
+func Abs(v VertexFloat) float64 {
+	return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+
+func Scale(v VertexFloat, f float64) {
+	v.X = v.X * f
+	v.Y = v.Y * f
+}
+
+
+
+
+type newInt int
+
+func (intt newInt) returnAbsInt() int  {
+	if(intt > 0) {
+		return int(intt)
+	}	else {
+		return -int(intt)
+	}
+}
+type VertexNew struct {
+	X,Y float64
+}
+
+func (v VertexNew) Abs() float64  {
+	return math.Sqrt(v.X*v.X +v.Y*v.Y )
+}
+
+func fibonacci() func() int  {
+
+	// This is just like creator ( 1 time)
+	f,g := 1,0
+	fmt.Println("Day la ",f)
+	fmt.Println("Day la ",g)
+
+	return func() int {
+		// The value can change in many loops
+		f,g = g, f+g
+		return f
+	}
+}
+
+func adder() func(int) int {
+	sum := 0
+	return func(x int) int {
+		sum += x
+		return sum
+	}
+}
+
+func compute(fn func(float64, float64) float64) float64 {
+	return fn(3, 4)
+}
+
 func WordCount(s string) map[string]int {
 
 	//Old version , sort then count
